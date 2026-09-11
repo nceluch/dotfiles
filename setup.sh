@@ -3,6 +3,7 @@
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 ./scripts/install-claude.sh
+./scripts/install-herdr.sh
 
 [ ! -f "$HOME/.claude/settings.json" ] && cp "$DOTFILES_DIR/.claude/settings.json" "$HOME/.claude/settings.json"
 [ ! -f "$HOME/.claude/CLAUDE.md" ] && cp "$DOTFILES_DIR/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
@@ -37,4 +38,19 @@ if [ -f "$HOME/.claude/settings.json" ] && command -v jq &> /dev/null; then
   fi
 else
   echo "  Skipped activation — no settings.json or no jq"
+fi
+
+# --- herdr Claude integration ---
+# Runs last, after the settings.json copy: the integration writes a hook into
+# ~/.claude/settings.json, which would flip that copy's `[ ! -f ]` guard and leave a
+# fresh box without the dotfiles settings. It merges its key rather than clobbering,
+# so the outputStyle written above survives.
+echo ""
+echo "Installing herdr Claude integration..."
+# install.sh drops the binary here, and this shell never sourced a profile.
+export PATH="$HOME/.local/bin:$PATH"
+if command -v herdr &> /dev/null; then
+  herdr integration install claude
+else
+  echo "  Skipped — herdr not on PATH"
 fi
