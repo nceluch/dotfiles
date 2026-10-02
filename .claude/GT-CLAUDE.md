@@ -1,6 +1,6 @@
 # Green Team (GT) — Claude instructions
 
-These are the RoadRunner green team's instructions. GT owns finance in Coyote (`RoadRunnerEngineering/coyote`): invoicing, payments (Helcim card, ACH, autopay), invoice lines, adjustments, exports, and automated corrections. Tickets are `GT-####` in Jira (`roadrunnerwm.atlassian.net`).
+These are the RoadRunner green team's instructions. GT owns finance in Coyote (`RoadRunnerEngineering/coyote`): invoicing, payments (Helcim card, ACH, autopay), invoice lines, adjustments (shared with Purple team), exports, and automated corrections. Tickets are `GT-####` in Jira (`roadrunnerwm.atlassian.net`).
 
 The instructions below apply when working in the Coyote repo. Coyote's own `CLAUDE.md` holds the repo-wide conventions (callback keywords, `build` vs `create`, Sidekiq queues, minimal comments, migrations). This file only adds GT-specific rules on top of it. If the two conflict, follow the repo file and tell me about the conflict.
 
@@ -101,6 +101,8 @@ The instructions below apply when working in the Coyote repo. Coyote's own `CLAU
 - Don't prop-drill data through components that don't use it. Call the hook where the data is needed (except in legacy class components).
 - Build conditional array entries with inline spreads (`...(cond ? [x] : [])`), not by `splice`ing in by ID.
 - Links to Lyra pages use `LYRA_BASE_URL`, not Coyote's base URL.
+- No data fetching in `useEffect`; use the react-query hooks.
+- `useMemo` / `useCallback` only for a slow calculation or a child that needs a stable reference. Otherwise move constants to module level.
 
 ---
 
@@ -113,12 +115,13 @@ Every main behavior in the ticket needs a spec that **would fail if the code wer
 - Take expected values from the setup, not hardcoded literals.
 - Use real records when they're cheap to create, rather than mocking them.
 - Cover the edge cases the ticket names (nil or none, multiple rows, credits vs charges, the "do NOT raise" paths).
+- Toggle Flipper with `Flipper.enable` / `Flipper.disable`; never stub it.
 
 ---
 
 ## Other teams' code
 
-Purple team (PT) owns much of the adjustments area. Teal (EP), OT, and TA own other areas. If a change modifies recent or meaningful behavior another team built, call it out so I can check with them (for PT, that's `#finance-tech`). Use `git blame` and the PR's ticket prefix to tell who owns it.
+GT and Purple team (PT) share ownership of adjustments. PT alone owns adjustment types and adjustment templates. Teal (EP), OT, and TA own other areas. If a change modifies recent or meaningful behavior another team built, call it out so I can check with them (for PT, that's `#finance-tech`). Use `git blame` and the PR's ticket prefix to tell who owns it.
 
 ---
 

@@ -1,0 +1,60 @@
+{
+  "skill_name": "coyote-green-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review Coyote PR 14004, are all my comments addressed? Does it work as intended?",
+      "expected_output": "Thread-by-thread status of nceluch's requested changes (invoice_x_lines -> invoice_lines, verbose comments, public_send, respond_to, ApplicationService, reusable type, job integration question), ticket GT-1831 requirement table, blocking vs NAB findings with paste-ready comments.",
+      "files": [],
+      "assertions": [
+        "Fetched the Jira ticket and maps its requirements to code locations (file:line) or explicitly reports it could not",
+        "Findings are separated into blocking vs non-blocking (NAB) categories",
+        "Includes ready-to-paste suggested comments, with non-blocking ones prefixed 'NAB:'",
+        "States an explicit verdict (approve / approve with NABs / request changes / questions first)",
+        "Explicitly reports the invoice_*_line check result (flagged or clean)",
+        "Explicitly reports the other-teams'-code / ownership check result",
+        "Reports that the invoice_cbs_lines/invoice_fhs_lines usage (nceluch's request-changes reason) was or was not replaced with invoice_lines, citing the commit",
+        "Gives a per-thread status for nceluch's inline comments (verbose comments, public_send, respond_to, ApplicationService, reusable type)",
+        "Addresses nceluch's review-summary question about integrating the functionality into the job",
+        "Raises the risk that corrected/re-invoiced months double count (original line plus correction lines all summed)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review Coyote PR 13979",
+      "expected_output": "Ticket GT-1860 match, thread statuses, blast-radius findings such as new HelcimCardTransaction validations breaking the re-raising sync worker and ACH path hitting card endpoint; NABs in user's voice.",
+      "files": [],
+      "assertions": [
+        "Fetched the Jira ticket and maps its requirements to code locations (file:line) or explicitly reports it could not",
+        "Findings are separated into blocking vs non-blocking (NAB) categories",
+        "Includes ready-to-paste suggested comments, with non-blocking ones prefixed 'NAB:'",
+        "States an explicit verdict (approve / approve with NABs / request changes / questions first)",
+        "Explicitly reports the invoice_*_line check result (flagged or clean)",
+        "Explicitly reports the other-teams'-code / ownership check result",
+        "Flags that new HelcimCardTransaction presence validations can make the sync worker (which re-raises on save failure) fail its whole run",
+        "Flags that ACH/non-card failures can reach the card-transaction lookup/record path",
+        "Gives a status for each existing review thread (Yuze class method, Alex each_value, Alex code smell, nceluch rescue, nceluch alternative creation)",
+        "Reports that the title '[GT-1860]: Fix\u2026' fails the PR conventions pattern (colon after the bracket)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "can you review coyote PR 14011 for me",
+      "expected_output": "Fresh review of a draft PR against GT-1820 with callback/automated-corrections checks, tests, readability, comments; verdict and paste-ready comments.",
+      "files": [],
+      "assertions": [
+        "Fetched the Jira ticket and maps its requirements to code locations (file:line) or explicitly reports it could not",
+        "Findings are separated into blocking vs non-blocking (NAB) categories",
+        "Includes ready-to-paste suggested comments, with non-blocking ones prefixed 'NAB:'",
+        "States an explicit verdict (approve / approve with NABs / request changes / questions first)",
+        "Explicitly reports the invoice_*_line check result (flagged or clean)",
+        "Explicitly reports the other-teams'-code / ownership check result",
+        "Flags that Account.find raises on a missing account, so the account.blank? guard is dead code (suggest find_by or drop the guard)",
+        "Flags the PR description as unfilled template/placeholder text (Veni, vidi, vici / AB-123)",
+        "Flags verbose comments in the new spec as a NAB",
+        "Notes the PR is a draft",
+        "Rates the Sidekiq-retry-loses-original-unblocked-state issue as blocking (not just a question or NAB)"
+      ]
+    }
+  ]
+}
