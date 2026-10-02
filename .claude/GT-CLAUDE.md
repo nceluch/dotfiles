@@ -122,14 +122,6 @@ Purple team (PT) owns much of the adjustments area. Teal (EP), OT, and TA own ot
 
 ---
 
-## PR descriptions (when I ask you to draft one)
-
-- The title must match `^\[\w{2,4}-\d{1,5}\] ` and be 25–100 characters: `[GT-1234] Short summary`. Don't put a colon after the bracket.
-- Fill in the repo's PR template. Explain *why* in the Description and Notes, including any place the code knowingly differs from the RFC, and link the related PRs and the ticket.
-- Update the description after review changes so it doesn't go stale.
-
----
-
 ## Reviewing GT PRs
 
 Use the `coyote-green-review` skill if you have it. Otherwise, review in this order:
