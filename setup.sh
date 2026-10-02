@@ -9,6 +9,18 @@ DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 [ ! -f "$HOME/.claude/CLAUDE.md" ] && cp "$DOTFILES_DIR/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 echo "  Claude Code configured"
 
+# --- Green team CLAUDE.md ---
+# Symlink for the same stale-copy reason as the output style below. The import line is
+# appended rather than copied, because the CLAUDE.md copy above skips boxes that already
+# have one. Claude Code resolves `@` imports relative to the importing file.
+echo ""
+echo "Installing green team CLAUDE.md..."
+ln -sf "$DOTFILES_DIR/.claude/GT-CLAUDE.md" "$HOME/.claude/GT-CLAUDE.md"
+if ! grep -qxF "@GT-CLAUDE.md" "$HOME/.claude/CLAUDE.md"; then
+  printf '\n@GT-CLAUDE.md\n' >> "$HOME/.claude/CLAUDE.md"
+fi
+echo "  GT-CLAUDE.md imported from ~/.claude/CLAUDE.md"
+
 # --- Claude Code output style ---
 # Symlink rather than copy, for the reason in 046b0fc: a cp goes stale silently, so an
 # edit to the style in this repo would never reach the box. mkdir -p first — without an

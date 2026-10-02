@@ -1,4 +1,4 @@
-# CLAUDE.md
+@GT-CLAUDE.md
 
 ## Technology
 - Ruby on Rails
