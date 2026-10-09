@@ -56,6 +56,9 @@ The instructions below apply when working in the Coyote repo. Coyote's own `CLAU
 - In specs, factories, and Playwright SQL, prefer `invoice_lines` too.
 - If the code ends up needing `respond_to?` or `public_send` to handle the per-type split, that usually means it should be using `invoice_lines` instead.
 
+### Invoice status
+- Prefer `accounts_receivable_lifecycle_status_id` on invoices over `intacct_push_status` when checking an invoice's state.
+
 ### Money
 - Round money with `Utils::Money.round_money` (2 decimal places, half-up, BigDecimal). Round rates and percentages with `Utils::Money.round_non_money_value`.
 - Never use a raw `.round(2)`, and never persist or push to Intacct the result of unrounded float math. The `Finance/RequireRoundMoney` cop only covers `app/classes/invoice_lines/line_data/*`, so apply this everywhere else yourself.
