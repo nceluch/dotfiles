@@ -120,6 +120,16 @@ Every main behavior in the ticket needs a spec that **would fail if the code wer
 - Cover the edge cases the ticket names (nil or none, multiple rows, credits vs charges, the "do NOT raise" paths).
 - Toggle Flipper with `Flipper.enable` / `Flipper.disable`; never stub it.
 
+### Spec structure
+
+Build setup from RSpec's own tools. Don't define helper methods (`def build_amounts(...)`, `def call_builder(...)`) in a spec file. A reader should see each test's inputs in `let`s and the call in the `it` block.
+
+- **Inputs go in memoized `let`s.** Override a `let` in a nested `context` to change one input, for example `let(:service) { create(:fleet_haul_service) }` or a different `let(:invoiced)`.
+- **Records that only need to exist go in a `before` block** with a bare `create(:model, ...)`. Use this when the code under test looks the record up, but the test never references it. Don't assign it to a `let!` or an instance variable.
+- **Call `described_class` directly in the `it` block**, with the full keyword arguments: `result = described_class.call(service: service, occurrence_date: occurrence_date, ...)`. Don't wrap the call in a method.
+- **`subject` is fine** when every example in a group makes the same call. Use a named subject (`subject(:result) { described_class.call(...) }`) so the `it` blocks read clearly.
+- **Override a single argument inline** when only one example needs it, for example `occurrence_date: Date.new(2026, 7, 1)` for the "no invoice line for the month" case.
+
 ---
 
 ## Other teams' code
