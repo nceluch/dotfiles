@@ -118,6 +118,9 @@ Every main behavior in the ticket needs a spec that **would fail if the code wer
 - Take expected values from the setup, not hardcoded literals.
 - Use real records when they're cheap to create, rather than mocking them.
 - Cover the edge cases the ticket names (nil or none, multiple rows, credits vs charges, the "do NOT raise" paths).
+- Test the invalid and unauthorized paths too, not only the happy path. For an endpoint: found, not found, and not owned by the user.
+- Use FactoryBot for data, not fixtures or hand-built hashes.
+- Write new endpoint tests as request specs, not controller specs.
 - Toggle Flipper with `Flipper.enable` / `Flipper.disable`; never stub it.
 
 ### Spec structure
@@ -129,6 +132,18 @@ Build setup from RSpec's own tools. Don't define helper methods (`def build_amou
 - **Call `described_class` directly in the `it` block**, with the full keyword arguments: `result = described_class.call(service: service, occurrence_date: occurrence_date, ...)`. Don't wrap the call in a method.
 - **`subject` is fine** when every example in a group makes the same call. Use a named subject (`subject(:result) { described_class.call(...) }`) so the `it` blocks read clearly.
 - **Override a single argument inline** when only one example needs it, for example `occurrence_date: Date.new(2026, 7, 1)` for the "no invoice line for the month" case.
+- **Create only the records the test needs.** Prefer `build` or `build_stubbed` when the code under test doesn't query the DB.
+- **Extract repeated behavior with `it_behaves_like`**, not copied examples. Mostly useful in request specs.
+
+### Spec naming and expectations
+
+- `describe` names the method: `'.call'` for class methods, `'#total'` for instance methods.
+- `context` starts with "when", "with", or "without": `context 'when the invoice is pushed'`.
+- Keep `it` descriptions under about 40 characters. Move the condition into a `context` and let the `it` state the outcome.
+- Write `it` in third person, present tense: `it 'creates a credit line'`, not `it 'should create a credit line'`.
+- Use `expect` syntax, and `is_expected.to` for one-liners on `subject`. Use block form for side effects: `expect { ... }.to change(...)` / `.to raise_error(...)`.
+- One behavior per example in unit specs. Request and other slow specs may check several things in one example; wrap them in `aggregate_failures`.
+- Stub external HTTP (Helcim, Avalara, Intacct). Specs never call a real service.
 
 ---
 
