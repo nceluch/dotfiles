@@ -52,6 +52,11 @@ else
   echo "  Skipped activation — no settings.json or no jq"
 fi
 
+# --- Matt Pocock's skills ---
+echo ""
+echo "Installing Matt Pocock's skills..."
+"$DOTFILES_DIR/scripts/install-mattpocock-skills.sh"
+
 # --- herdr Claude integration ---
 # Runs last, after the settings.json copy: the integration writes a hook into
 # ~/.claude/settings.json, which would flip that copy's `[ ! -f ]` guard and leave a

@@ -79,6 +79,7 @@ The instructions below apply when working in the Coyote repo. Coyote's own `CLAU
 
 ### Ruby style the team prefers
 - Write plain, direct Ruby. Avoid metaprogramming in production code (`public_send` with computed names, `define_method`, `respond_to?` branching).
+- Prefer pure functions where practical: take inputs as arguments, return a value, and don't touch the DB or mutate state. Keep side effects (queries, saves, API calls) at the edges so the calculation logic is easy to test. This is a preference, not a hard rule.
 - If a class's main method is `.call`, make it inherit `ApplicationService` so callers can use `Klass.call(...)`.
 - Prefer `private_class_method def foo` over making a method private after the fact.
 - Don't write wrappers that only forward to another method. Return a boolean when the caller only needs yes or no.
