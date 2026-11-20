@@ -50,6 +50,12 @@ else
   echo "  Skipped activation — no settings.json or no jq"
 fi
 
+# --- Herdr ---
+# After the settings.json copy: the Claude integration merges a hook into it.
+echo ""
+echo "Installing Herdr..."
+"$DOTFILES_DIR/scripts/install-herdr.sh"
+
 # --- Matt Pocock's skills ---
 echo ""
 echo "Installing Matt Pocock's skills..."

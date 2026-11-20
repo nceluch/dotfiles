@@ -1,0 +1,22 @@
+onboarding = false
+
+[theme]
+name = "gruvbox"
+auto_switch = false
+
+[ui.toast]
+delivery = "system"
+
+[ui.sound]
+enabled = false
+
+[session]
+resume_agents_on_restore = true
+
+# Herdr's own update check would walk the version pin forward.
+[update]
+version_check = false
+
+[terminal]
+default_shell = "fish"
+new_cwd = "follow"
